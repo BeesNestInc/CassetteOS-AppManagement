@@ -1,8 +1,8 @@
 package common
 
 import (
-	"github.com/IceWhaleTech/CasaOS-AppManagement/codegen/message_bus"
-	"github.com/IceWhaleTech/CasaOS-Common/utils"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/codegen/message_bus"
+	"github.com/BeesNestInc/CassetteOS-Common/utils"
 )
 
 // common properties

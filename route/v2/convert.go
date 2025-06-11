@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/IceWhaleTech/CasaOS-AppManagement/codegen"
-	"github.com/IceWhaleTech/CasaOS-AppManagement/model"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/codegen"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/model"
 	"github.com/labstack/echo/v4"
 	"gopkg.in/yaml.v3"
 )

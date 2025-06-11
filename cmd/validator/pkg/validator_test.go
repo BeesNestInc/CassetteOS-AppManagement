@@ -3,8 +3,8 @@ package pkg_test
 import (
 	"testing"
 
-	"github.com/IceWhaleTech/CasaOS-AppManagement/cmd/validator/pkg"
-	utils_logger "github.com/IceWhaleTech/CasaOS-Common/utils/logger"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/cmd/validator/pkg"
+	utils_logger "github.com/BeesNestInc/CassetteOS-Common/utils/logger"
 	"github.com/stretchr/testify/assert"
 )
 

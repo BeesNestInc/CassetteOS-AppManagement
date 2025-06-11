@@ -14,11 +14,11 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/IceWhaleTech/CasaOS-AppManagement/codegen/message_bus"
-	"github.com/IceWhaleTech/CasaOS-AppManagement/common"
-	"github.com/IceWhaleTech/CasaOS-AppManagement/pkg/config"
-	"github.com/IceWhaleTech/CasaOS-Common/external"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/logger"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/codegen/message_bus"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/common"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/pkg/config"
+	"github.com/BeesNestInc/CassetteOS-Common/external"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/logger"
 	jsoniter "github.com/json-iterator/go"
 	"go.uber.org/zap"
 )

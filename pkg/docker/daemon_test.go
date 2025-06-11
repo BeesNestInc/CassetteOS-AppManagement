@@ -3,7 +3,7 @@ package docker_test
 import (
 	"testing"
 
-	"github.com/IceWhaleTech/CasaOS-AppManagement/pkg/docker"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/pkg/docker"
 	"gotest.tools/v3/assert"
 )
 

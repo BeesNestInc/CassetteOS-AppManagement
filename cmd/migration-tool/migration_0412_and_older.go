@@ -6,9 +6,9 @@ import (
 	"os"
 	"strings"
 
-	interfaces "github.com/IceWhaleTech/CasaOS-Common"
+	interfaces "github.com/BeesNestInc/CassetteOS-Common"
 
-	"github.com/IceWhaleTech/CasaOS-AppManagement/pkg/config"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/pkg/config"
 )
 
 type migrationTool0412AndOlder struct{}

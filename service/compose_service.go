@@ -6,11 +6,11 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/IceWhaleTech/CasaOS-AppManagement/common"
-	"github.com/IceWhaleTech/CasaOS-AppManagement/pkg/config"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/file"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/logger"
-	timeutils "github.com/IceWhaleTech/CasaOS-Common/utils/time"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/common"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/pkg/config"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/file"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/logger"
+	timeutils "github.com/BeesNestInc/CassetteOS-Common/utils/time"
 	"gopkg.in/yaml.v3"
 
 	"github.com/docker/cli/cli/command"

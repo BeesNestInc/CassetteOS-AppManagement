@@ -5,11 +5,11 @@ import (
 
 	"gotest.tools/v3/assert"
 
-	"github.com/IceWhaleTech/CasaOS-AppManagement/codegen"
-	"github.com/IceWhaleTech/CasaOS-AppManagement/common"
-	v2 "github.com/IceWhaleTech/CasaOS-AppManagement/route/v2"
-	"github.com/IceWhaleTech/CasaOS-AppManagement/service"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/logger"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/codegen"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/common"
+	v2 "github.com/BeesNestInc/CassetteOS-AppManagement/route/v2"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/service"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/logger"
 	"github.com/compose-spec/compose-go/types"
 )
 
