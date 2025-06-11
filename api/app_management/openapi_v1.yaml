@@ -1,18 +1,10 @@
 openapi: 3.0.3
 
 info:
-  title: CasaOS App Management API
+  title: CassetteOS App Management API
   version: v1
   description: |
-    <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/IceWhaleTech/logo/main/casaos/casaos_banner_dark_night_800px.png">
-        <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/IceWhaleTech/logo/main/casaos/casaos_banner_twilight_blue_800px.png">
-        <img alt="CasaOS" src="https://raw.githubusercontent.com/IceWhaleTech/logo/main/casaos/casaos_banner_twilight_blue_800px.png">
-    </picture>
-
-    CasaOS App Management manages app lifecycle, including installing, uninstalling, starting, stopping, setting, etc.
-
-    For issues and discussions, please visit the [GitHub repository](https://github.com/IceWhaleTech/CasaOS) or join [our Discord](https://discord.gg/knqAbbBbeX).
+    CassetteOS App Management manages app lifecycle, including installing, uninstalling, starting, stopping, setting, etc.
 
 servers:
   - url: /v1/container
@@ -299,7 +291,7 @@ components:
           example: "https://raw.githubusercontent.com/IceWhaleTech/logo/main/casaos/casaos_logo_64px.png"
         title:
           type: string
-          example: "CasaOS"
+          example: "CassetteOS"
         data:
           type: object
         previous:
@@ -366,25 +358,25 @@ components:
       properties:
         container_name:
           type: string
-          example: "casaos"
+          example: "cassetteos"
         custom_id:
           type: string
-          example: "casaos"
+          example: "cassetteos"
         origin:
           type: string
-          example: "casaos"
+          example: "cassetteos"
         network_model:
           type: string
           example: "bridge"
         index:
           type: string
-          example: "casaos"
+          example: "cassetteos"
         icon:
           type: string
           example: "https://raw.githubusercontent.com/IceWhaleTech/logo/main/casaos/casaos_logo_64px.png"
         image:
           type: string
-          example: "casaos"
+          example: "cassetteos"
         envs:
           type: array
           items:
@@ -418,16 +410,16 @@ components:
           example: true
         label:
           type: string
-          example: "casaos"
+          example: "cassetteos"
         description:
           type: string
-          example: "CasaOS"
+          example: "cassetteos"
         position:
           type: boolean
           example: true
         host_name:
           type: string
-          example: "casaos"
+          example: "cassetteos"
         privileged:
           type: boolean
           example: true
@@ -440,13 +432,13 @@ components:
           type: array
           items:
             type: string
-          example: ["casaos"]
+          example: ["cassetteos"]
         protocol:
           type: string
           example: "tcp"
         host:
           type: string
-          example: "casaos"
+          example: "cassetteos"
         appstore_id:
           type: integer
           example: 1
