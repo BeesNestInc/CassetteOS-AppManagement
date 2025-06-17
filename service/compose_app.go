@@ -19,7 +19,6 @@ import (
 	"github.com/BeesNestInc/CassetteOS-AppManagement/common"
 	"github.com/BeesNestInc/CassetteOS-AppManagement/pkg/config"
 	"github.com/BeesNestInc/CassetteOS-AppManagement/pkg/docker"
-	"github.com/BeesNestInc/CassetteOS-Common/external"
 	"github.com/BeesNestInc/CassetteOS-Common/utils"
 	"github.com/BeesNestInc/CassetteOS-Common/utils/file"
 	"github.com/BeesNestInc/CassetteOS-Common/utils/logger"
@@ -222,7 +221,7 @@ func (a *ComposeApp) Update(ctx context.Context) error {
 	}
 
 	// the code is need by stable diffusion.
-	removeRuntime(a)
+	//removeRuntime(a)
 
 	newComposeYAML, err := yaml.Marshal(a)
 	if err != nil {
@@ -923,7 +922,7 @@ func LoadComposeAppFromConfigFile(appID string, configFile string) (*ComposeApp,
 
 	return (*ComposeApp)(project), err
 }
-
+/*
 var gpuCache *([]external.GPUInfo) = nil
 
 func removeRuntime(a *ComposeApp) {
@@ -946,7 +945,7 @@ func removeRuntime(a *ComposeApp) {
 			}
 		}
 	}
-}
+}*/
 
 func NewComposeAppFromYAML(yaml []byte, skipInterpolation, skipValidation bool) (*ComposeApp, error) {
 	tmpWorkingDir, err := os.MkdirTemp("", "casaos-compose-app-*")
@@ -1028,7 +1027,7 @@ func NewComposeAppFromYAML(yaml []byte, skipInterpolation, skipValidation bool) 
 		composeApp.SetTitle(composeApp.Name, common.DefaultLanguage)
 	}
 
-	removeRuntime(composeApp)
+	//removeRuntime(composeApp)
 
 	// pass icon information to v1 label for backward compatibility, because we are
 	// still using `func getContainerStats()` from `container.go` to get container stats
