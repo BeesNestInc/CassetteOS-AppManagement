@@ -12,13 +12,13 @@ import (
 )
 
 const (
-	appManagementConfigDirPath  = "/etc/casaos"
-	appManagementConfigFilePath = "/etc/casaos/app-management.conf"
-	appManagementName           = "casaos-app-management.service"
+	appManagementConfigDirPath  = "/etc/cassetteos"
+	appManagementConfigFilePath = "/etc/cassetteos/app-management.conf"
+	appManagementName           = "cassetteos-app-management.service"
 	appManagementNameShort      = "app-management"
 )
 
-//go:embedded ../../build/sysroot/etc/casaos/app-management.conf.sample
+//go:embedded ../../build/sysroot/etc/cassetteos/app-management.conf.sample
 //var _appManagementConfigFileSample string
 
 var (
