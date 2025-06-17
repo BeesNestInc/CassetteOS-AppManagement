@@ -32,7 +32,7 @@ import (
 )
 
 const (
-	dockerRootDirFilePath             = "/var/lib/casaos/docker_root"
+	dockerRootDirFilePath             = "/var/lib/cassetteos/docker_root"
 	dockerDaemonConfigurationFilePath = "/etc/docker/daemon.json"
 )
 
