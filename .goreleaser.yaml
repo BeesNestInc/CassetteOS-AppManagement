@@ -23,6 +23,7 @@ builds:
     ldflags:
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
+      - -X main.Version={{.Version}} 
       - -s
       - -w
       - -extldflags "-static"
@@ -49,6 +50,7 @@ builds:
     ldflags:
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
+      - -X main.Version={{.Version}} 
       - -s
       - -w
       - -extldflags "-static"
@@ -75,6 +77,7 @@ builds:
     ldflags:
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
+      - -X main.Version={{.Version}} 
       - -s
       - -w
       - -extldflags "-static"
@@ -99,6 +102,7 @@ builds:
     ldflags:
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
+      - -X main.Version={{.Version}} 
       - -s
       - -w
       - -extldflags "-static"
@@ -121,6 +125,7 @@ builds:
     ldflags:
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
+      - -X main.Version={{.Version}} 
       - -s
       - -w
       - -extldflags "-static"
@@ -143,6 +148,7 @@ builds:
     ldflags:
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
+      - -X main.Version={{.Version}} 
       - -s
       - -w
       - -extldflags "-static"
@@ -167,6 +173,7 @@ builds:
     ldflags:
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
+      - -X main.Version={{.Version}} 
       - -s
       - -w
       - -extldflags "-static"

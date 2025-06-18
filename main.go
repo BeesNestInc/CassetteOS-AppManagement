@@ -46,6 +46,9 @@ var (
 
 	//go:embed build/sysroot/etc/cassetteos/app-management.conf.sample
 	_confSample string
+	Version string
+	Commit  string
+	Date    string
 )
 
 func main() {
@@ -56,6 +59,9 @@ func main() {
 	{
 		configFlag := flag.String("c", "", "config file path")
 		versionFlag := flag.Bool("v", false, "version")
+		fmt.Printf("Version: %s\n", Version)
+		fmt.Printf("Commit:  %s\n", Commit)
+		fmt.Printf("Date:    %s\n", Date)
 		removeRuntimeIfNoNvidiaGPUFlag := flag.Bool("removeRuntimeIfNoNvidiaGPU", false, "remove runtime with nvidia gpu")
 
 		flag.Parse()
