@@ -8,19 +8,19 @@ import (
 	"strings"
 	"time"
 
-	"github.com/IceWhaleTech/CasaOS-AppManagement/common"
-	"github.com/IceWhaleTech/CasaOS-AppManagement/model"
-	"github.com/IceWhaleTech/CasaOS-AppManagement/pkg/config"
-	v2 "github.com/IceWhaleTech/CasaOS-AppManagement/route/v2"
-	"github.com/IceWhaleTech/CasaOS-AppManagement/service"
-	v1 "github.com/IceWhaleTech/CasaOS-AppManagement/service/v1"
-	modelCommon "github.com/IceWhaleTech/CasaOS-Common/model"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/common_err"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/file"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/logger"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/port"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/ssh"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/systemctl"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/common"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/model"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/pkg/config"
+	v2 "github.com/BeesNestInc/CassetteOS-AppManagement/route/v2"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/service"
+	v1 "github.com/BeesNestInc/CassetteOS-AppManagement/service/v1"
+	modelCommon "github.com/BeesNestInc/CassetteOS-Common/model"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/common_err"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/file"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/logger"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/port"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/ssh"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/systemctl"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/errdefs"
 	"github.com/gorilla/websocket"
@@ -32,7 +32,7 @@ import (
 )
 
 const (
-	dockerRootDirFilePath             = "/var/lib/casaos/docker_root"
+	dockerRootDirFilePath             = "/var/lib/cassetteos/docker_root"
 	dockerDaemonConfigurationFilePath = "/etc/docker/daemon.json"
 )
 

@@ -1,12 +1,12 @@
 [Unit]
-After=casaos-message-bus.service
+After=cassetteos-message-bus.service
 After=docker.service
-Description=CasaOS App Management Service
+Description=CassetteOS App Management Service
 
 [Service]
-ExecStartPre=/usr/bin/casaos-app-management -v
-ExecStart=/usr/bin/casaos-app-management -c /etc/casaos/app-management.conf
-PIDFile=/var/run/casaos/app-management.pid
+ExecStartPre=/usr/bin/cassetteos-app-management -v
+ExecStart=/usr/bin/cassetteos-app-management -c /etc/cassetteos/app-management.conf
+PIDFile=/var/run/cassetteos/app-management.pid
 Restart=always
 Type=notify
 

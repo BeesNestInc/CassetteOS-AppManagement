@@ -56,29 +56,16 @@ __is_migration_needed() {
 
     __is_version_gt "${version2}" "${version1}"
 }
-__get_download_domain(){
-    local region
-    # Use ipconfig.io/country and https://ifconfig.io/country_code to get the country code
-    region=$(curl --connect-timeout 2 -s ipconfig.io/country || echo "")
-    if [ "${region}" = "" ]; then
-       region=$(curl --connect-timeout 2 -s https://ifconfig.io/country_code || echo "")
-    fi
-    if [[ "${region}" = "China" ]] || [[ "${region}" = "CN" ]]; then
-        echo "https://casaos.oss-cn-shanghai.aliyuncs.com/"
-    else
-        echo "https://github.com/"
-    fi
-}
 
-DOWNLOAD_DOMAIN=$(__get_download_domain)
+DOWNLOAD_DOMAIN="https://github.com/"
 BUILD_PATH=$(dirname "${BASH_SOURCE[0]}")/../../..
 
 readonly BUILD_PATH
 readonly SOURCE_ROOT=${BUILD_PATH}/sysroot
 
-readonly APP_NAME="casaos-app-management"
+readonly APP_NAME="cassetteos-app-management"
 readonly APP_NAME_SHORT="app-management"
-readonly APP_NAME_LEGACY="casaos"
+readonly APP_NAME_LEGACY="cassetteos"
 
 # check if migration is needed
 readonly SOURCE_BIN_PATH=${SOURCE_ROOT}/usr/bin

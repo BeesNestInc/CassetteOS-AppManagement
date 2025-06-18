@@ -3,12 +3,12 @@
 set -e
 
 readonly CASA_SERVICES=(
-    "casaos-app-management.service"
+    "cassetteos-app-management.service"
 )
 
-readonly CASA_EXEC=casaos-app-management
-readonly CASA_CONF=/etc/casaos/app-management.conf
-readonly CASA_DB=/var/lib/casaos/db/app-management.db
+readonly CASA_EXEC=cassetteos-app-management
+readonly CASA_CONF=/etc/cassetteos/app-management.conf
+readonly CASA_DB=/var/lib/cassetteos/db/app-management.db
 
 readonly aCOLOUR=(
     '\e[38;5;154m' # green  	| Lines, bullets and separators
