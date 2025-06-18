@@ -3,18 +3,36 @@ name: goreleaser
 on:
   push:
     tags:
-      - v*.*.*
-env:
-  casaos_cache_version: 1.1 # the value define by causal. the field for to clear the GitHub Action cache
+      - 'v*'
 
 permissions:
   contents: write
 jobs:
-  call-workflow-passing-data:
-    uses: IceWhaleTech/github/.github/workflows/go_release.yml@main
-    with:
-      project-name: CasaOS-AppManagement
-      file-name: casaos-app-management
-    secrets:
-      OSS_KEY_ID: ${{ secrets.OSS_KEY_ID }}
-      OSS_KEY_SECRET: ${{ secrets.OSS_KEY_SECRET }}
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install dependencies for cross-compiling
+        run: |
+          sudo apt update || true 
+          sudo apt-get --no-install-recommends --yes install \
+            upx libc6-dev-amd64-cross \
+            gcc-aarch64-linux-gnu libc6-dev-arm64-cross \
+            gcc-arm-linux-gnueabihf libc6-dev-armhf-cross \
+            gcc-riscv64-linux-gnu libc6-dev-riscv64-cross
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+          cache-dependency-path: |
+            go.sum
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v4
+        with:
+          distribution: goreleaser
+          version: latest
+          args: --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

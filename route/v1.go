@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/IceWhaleTech/CasaOS-AppManagement/pkg/config"
-	v1 "github.com/IceWhaleTech/CasaOS-AppManagement/route/v1"
-	"github.com/IceWhaleTech/CasaOS-Common/external"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/jwt"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/pkg/config"
+	v1 "github.com/BeesNestInc/CassetteOS-AppManagement/route/v1"
+	"github.com/BeesNestInc/CassetteOS-Common/external"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/jwt"
 	"github.com/labstack/echo/v4"
 	echo_middleware "github.com/labstack/echo/v4/middleware"
 )

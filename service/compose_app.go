@@ -13,18 +13,17 @@ import (
 	"strings"
 	"time"
 
-	v1 "github.com/IceWhaleTech/CasaOS-AppManagement/service/v1"
+	v1 "github.com/BeesNestInc/CassetteOS-AppManagement/service/v1"
 
-	"github.com/IceWhaleTech/CasaOS-AppManagement/codegen"
-	"github.com/IceWhaleTech/CasaOS-AppManagement/common"
-	"github.com/IceWhaleTech/CasaOS-AppManagement/pkg/config"
-	"github.com/IceWhaleTech/CasaOS-AppManagement/pkg/docker"
-	"github.com/IceWhaleTech/CasaOS-Common/external"
-	"github.com/IceWhaleTech/CasaOS-Common/utils"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/file"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/logger"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/port"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/random"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/codegen"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/common"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/pkg/config"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/pkg/docker"
+	"github.com/BeesNestInc/CassetteOS-Common/utils"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/file"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/logger"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/port"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/random"
 	"github.com/compose-spec/compose-go/cli"
 	"github.com/compose-spec/compose-go/loader"
 	"github.com/compose-spec/compose-go/types"
@@ -222,7 +221,7 @@ func (a *ComposeApp) Update(ctx context.Context) error {
 	}
 
 	// the code is need by stable diffusion.
-	removeRuntime(a)
+	//removeRuntime(a)
 
 	newComposeYAML, err := yaml.Marshal(a)
 	if err != nil {
@@ -923,7 +922,7 @@ func LoadComposeAppFromConfigFile(appID string, configFile string) (*ComposeApp,
 
 	return (*ComposeApp)(project), err
 }
-
+/*
 var gpuCache *([]external.GPUInfo) = nil
 
 func removeRuntime(a *ComposeApp) {
@@ -946,7 +945,7 @@ func removeRuntime(a *ComposeApp) {
 			}
 		}
 	}
-}
+}*/
 
 func NewComposeAppFromYAML(yaml []byte, skipInterpolation, skipValidation bool) (*ComposeApp, error) {
 	tmpWorkingDir, err := os.MkdirTemp("", "casaos-compose-app-*")
@@ -1028,7 +1027,7 @@ func NewComposeAppFromYAML(yaml []byte, skipInterpolation, skipValidation bool) 
 		composeApp.SetTitle(composeApp.Name, common.DefaultLanguage)
 	}
 
-	removeRuntime(composeApp)
+	//removeRuntime(composeApp)
 
 	// pass icon information to v1 label for backward compatibility, because we are
 	// still using `func getContainerStats()` from `container.go` to get container stats

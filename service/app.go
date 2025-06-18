@@ -1,9 +1,9 @@
 package service
 
 import (
-	"github.com/IceWhaleTech/CasaOS-AppManagement/codegen"
-	"github.com/IceWhaleTech/CasaOS-AppManagement/common"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/logger"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/codegen"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/common"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/logger"
 	"github.com/compose-spec/compose-go/loader"
 	"github.com/compose-spec/compose-go/types"
 )

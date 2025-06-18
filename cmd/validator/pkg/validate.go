@@ -1,9 +1,9 @@
 package pkg
 
 import (
-	"github.com/IceWhaleTech/CasaOS-AppManagement/codegen"
-	"github.com/IceWhaleTech/CasaOS-AppManagement/common"
-	"github.com/IceWhaleTech/CasaOS-AppManagement/service"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/codegen"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/common"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/service"
 	"github.com/compose-spec/compose-go/loader"
 )
 

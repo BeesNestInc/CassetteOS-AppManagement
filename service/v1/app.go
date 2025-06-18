@@ -8,9 +8,9 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"go.uber.org/zap"
 
-	"github.com/IceWhaleTech/CasaOS-AppManagement/common"
-	"github.com/IceWhaleTech/CasaOS-AppManagement/model"
-	"github.com/IceWhaleTech/CasaOS-Common/utils/logger"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/common"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/model"
+	"github.com/BeesNestInc/CassetteOS-Common/utils/logger"
 )
 
 const (

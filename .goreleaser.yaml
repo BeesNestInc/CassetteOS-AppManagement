@@ -1,6 +1,6 @@
 # This is an example .goreleaser.yml file with some sensible defaults.
 # Make sure to check the documentation at https://goreleaser.com
-project_name: casaos-app-management
+project_name: cassetteos-app-management
 before:
   hooks:
     - go generate
@@ -8,11 +8,11 @@ before:
     - go mod tidy
     - go test -race -v ./... -timeout 30m
 builds:
-  - id: casaos-app-management-amd64
-    binary: build/sysroot/usr/bin/casaos-app-management
+  - id: cassetteos-app-management-amd64
+    binary: build/sysroot/usr/bin/cassetteos-app-management
     hooks:
       post:
-        - cmd: go build -v -tags 'musl netgo osusergo' -o build/sysroot/usr/bin/appfile2compose github.com/IceWhaleTech/CasaOS-AppManagement/cmd/appfile2compose
+        - cmd: go build -v -tags 'musl netgo osusergo' -o build/sysroot/usr/bin/appfile2compose github.com/BeesNestInc/CassetteOS-AppManagement/cmd/appfile2compose
           output: true
         - cmd: upx --best --lzma -v --no-progress build/sysroot/usr/bin/appfile2compose
           output: true
@@ -23,6 +23,7 @@ builds:
     ldflags:
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
+      - -X main.Version={{.Version}} 
       - -s
       - -w
       - -extldflags "-static"
@@ -34,11 +35,11 @@ builds:
       - linux
     goarch:
       - amd64
-  - id: casaos-app-management-arm64
-    binary: build/sysroot/usr/bin/casaos-app-management
+  - id: cassetteos-app-management-arm64
+    binary: build/sysroot/usr/bin/cassetteos-app-management
     hooks:
       post:
-        - cmd: go build -v -tags 'musl netgo osusergo' -o build/sysroot/usr/bin/appfile2compose github.com/IceWhaleTech/CasaOS-AppManagement/cmd/appfile2compose
+        - cmd: go build -v -tags 'musl netgo osusergo' -o build/sysroot/usr/bin/appfile2compose github.com/BeesNestInc/CassetteOS-AppManagement/cmd/appfile2compose
           output: true
         # - cmd: upx --best --lzma -v --no-progress build/sysroot/usr/bin/appfile2compose
         #   output: true
@@ -49,6 +50,7 @@ builds:
     ldflags:
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
+      - -X main.Version={{.Version}} 
       - -s
       - -w
       - -extldflags "-static"
@@ -60,11 +62,11 @@ builds:
       - linux
     goarch:
       - arm64
-  - id: casaos-app-management-arm-7
-    binary: build/sysroot/usr/bin/casaos-app-management
+  - id: cassetteos-app-management-arm-7
+    binary: build/sysroot/usr/bin/cassetteos-app-management
     hooks:
       post:
-        - cmd: go build -v -tags 'musl netgo osusergo' -o build/sysroot/usr/bin/appfile2compose github.com/IceWhaleTech/CasaOS-AppManagement/cmd/appfile2compose
+        - cmd: go build -v -tags 'musl netgo osusergo' -o build/sysroot/usr/bin/appfile2compose github.com/BeesNestInc/CassetteOS-AppManagement/cmd/appfile2compose
           output: true
         - cmd: upx --best --lzma -v --no-progress build/sysroot/usr/bin/appfile2compose
           output: true
@@ -75,6 +77,7 @@ builds:
     ldflags:
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
+      - -X main.Version={{.Version}} 
       - -s
       - -w
       - -extldflags "-static"
@@ -88,8 +91,8 @@ builds:
       - arm
     goarm:
       - "7"
-  - id: casaos-app-management-migration-tool-amd64
-    binary: build/sysroot/usr/bin/casaos-app-management-migration-tool
+  - id: cassetteos-app-management-migration-tool-amd64
+    binary: build/sysroot/usr/bin/cassetteos-app-management-migration-tool
     hooks:
       post:
         - upx --best --lzma -v --no-progress "{{ .Path }}"
@@ -99,6 +102,7 @@ builds:
     ldflags:
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
+      - -X main.Version={{.Version}} 
       - -s
       - -w
       - -extldflags "-static"
@@ -110,8 +114,8 @@ builds:
       - linux
     goarch:
       - amd64
-  - id: casaos-app-management-migration-tool-arm64
-    binary: build/sysroot/usr/bin/casaos-app-management-migration-tool
+  - id: cassetteos-app-management-migration-tool-arm64
+    binary: build/sysroot/usr/bin/cassetteos-app-management-migration-tool
     # hooks:
     #   post:
     #     - upx --best --lzma -v --no-progress "{{ .Path }}"
@@ -121,6 +125,7 @@ builds:
     ldflags:
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
+      - -X main.Version={{.Version}} 
       - -s
       - -w
       - -extldflags "-static"
@@ -132,8 +137,8 @@ builds:
       - linux
     goarch:
       - arm64
-  - id: casaos-app-management-migration-tool-arm-7
-    binary: build/sysroot/usr/bin/casaos-app-management-migration-tool
+  - id: cassetteos-app-management-migration-tool-arm-7
+    binary: build/sysroot/usr/bin/cassetteos-app-management-migration-tool
     hooks:
       post:
         - upx --best --lzma -v --no-progress "{{ .Path }}"
@@ -143,6 +148,7 @@ builds:
     ldflags:
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
+      - -X main.Version={{.Version}} 
       - -s
       - -w
       - -extldflags "-static"
@@ -156,8 +162,8 @@ builds:
       - arm
     goarm:
       - "7"
-  - id: casaos-app-management-validator-amd64
-    binary: build/sysroot/usr/bin/casaos-app-management-validator
+  - id: cassetteos-app-management-validator-amd64
+    binary: build/sysroot/usr/bin/cassetteos-app-management-validator
     hooks:
       post:
         - upx --best --lzma -v --no-progress "{{ .Path }}"
@@ -167,6 +173,7 @@ builds:
     ldflags:
       - -X main.commit={{.Commit}}
       - -X main.date={{.Date}}
+      - -X main.Version={{.Version}} 
       - -s
       - -w
       - -extldflags "-static"
@@ -182,27 +189,27 @@ builds:
 archives:
   - name_template: >-
       {{ .Os }}-{{- if eq .Arch "arm" }}arm-7{{- else }}{{ .Arch }}{{- end }}-{{ .ProjectName }}-v{{ .Version }}
-    id: casaos-app-management
+    id: cassetteos-app-management
     builds:
-      - casaos-app-management-amd64
-      - casaos-app-management-arm64
-      - casaos-app-management-arm-7
+      - cassetteos-app-management-amd64
+      - cassetteos-app-management-arm64
+      - cassetteos-app-management-arm-7
     files:
       - build/**/*
   - name_template: >-
       {{ .Os }}-{{- if eq .Arch "arm" }}arm-7{{- else }}{{ .Arch }}{{- end }}-{{ .ProjectName }}-migration-tool-v{{ .Version }}
-    id: casaos-app-management-migration-tool
+    id: cassetteos-app-management-migration-tool
     builds:
-      - casaos-app-management-migration-tool-amd64
-      - casaos-app-management-migration-tool-arm64
-      - casaos-app-management-migration-tool-arm-7
+      - cassetteos-app-management-migration-tool-amd64
+      - cassetteos-app-management-migration-tool-arm64
+      - cassetteos-app-management-migration-tool-arm-7
     files:
       - build/sysroot/etc/**/*
   - name_template: >-
       {{ .Os }}-{{- if eq .Arch "arm" }}arm-7{{- else }}{{ .Arch }}{{- end }}-{{ .ProjectName }}-validator-v{{ .Version }}
-    id: casaos-app-management-validator
+    id: cassetteos-app-management-validator
     builds:
-      - casaos-app-management-validator-amd64
+      - cassetteos-app-management-validator-amd64
     files:
       - build/sysroot/etc/**/*
 
@@ -218,8 +225,8 @@ changelog:
       - "^test:"
 release:
   github:
-    owner: IceWhaleTech
-    name: CasaOS-AppManagement
+    owner: BeesNestInc
+    name: CassetteOS-AppManagement
   draft: false
   prerelease: auto
   mode: replace
