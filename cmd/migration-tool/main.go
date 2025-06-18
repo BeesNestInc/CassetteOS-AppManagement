@@ -68,7 +68,6 @@ func main() {
 	}
 
 	migrationTools := []interfaces.MigrationTool{
-		NewMigration0415AndOlder(),
 	}
 
 	var selectedMigrationTool interfaces.MigrationTool
