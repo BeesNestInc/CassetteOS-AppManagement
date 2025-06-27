@@ -1,3 +1,6 @@
+## unreleased
+- デフォルトのAppStoreをCassetteOSに変更
+
 ## v0.4.16-alpha2-cs1.0.0
 - CasaOS-AppManagement v0.4.16-alpha2をベースにカスタマイズ
 - IceWhaleTechのリポジトリからフォークし、モジュールパスなどを修正。  
