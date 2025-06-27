@@ -1,4 +1,4 @@
-## unreleased
+## v0.4.16-alpha2-cs1.0.1
 - デフォルトのAppStoreをCassetteOSに変更
 
 ## v0.4.16-alpha2-cs1.0.0
