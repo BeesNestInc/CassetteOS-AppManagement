@@ -1,3 +1,6 @@
+## unreleased
+- サービスファイルの中にリネーム漏れが存在したのを修正
+
 ## v0.4.16-alpha2-cs1.0.1
 - デフォルトのAppStoreをCassetteOSに変更
 
