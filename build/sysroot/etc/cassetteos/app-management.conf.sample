@@ -1,0 +1,12 @@
+[common]
+RuntimePath = /var/run/cassetteos
+
+[app]
+LogPath = /var/log/cassetteos/
+LogSaveName = app-management
+LogFileExt = log
+AppStorePath = /var/lib/cassetteos/appstore
+AppsPath = /var/lib/cassetteos/apps
+
+[server]
+appstore = https://github.com/BeesNestInc/CassetteOS-AppStore/archive/refs/heads/main.zip

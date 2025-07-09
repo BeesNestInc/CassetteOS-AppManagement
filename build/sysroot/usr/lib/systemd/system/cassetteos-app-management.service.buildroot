@@ -1,0 +1,14 @@
+[Unit]
+After=cassetteos-message-bus.service
+After=docker.service
+Description=CassetteOS App Management Service
+
+[Service]
+ExecStartPre=/usr/bin/cassetteos-app-management -v
+ExecStart=/usr/bin/cassetteos-app-management -c /etc/cassetteos/app-management.conf --removeRuntimeIfNoNvidiaGPU true
+PIDFile=/run/cassetteos/app-management.pid
+Restart=always
+Type=notify
+
+[Install]
+WantedBy=multi-user.target
