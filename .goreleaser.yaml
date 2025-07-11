@@ -227,7 +227,6 @@ release:
   github:
     owner: BeesNestInc
     name: CassetteOS-AppManagement
-  draft: false
   prerelease: auto
   mode: replace
   name_template: "v{{ .Version }}"
