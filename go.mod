@@ -221,7 +221,7 @@ require (
 )
 
 require (
-	github.com/BeesNestInc/CassetteOS-Common v0.0.4
+	github.com/BeesNestInc/CassetteOS-Common v0.0.5
 	github.com/compose-spec/compose-go v1.20.2
 	github.com/coreos/go-systemd v0.0.0-20191104093116-d3cd4ed1dbcf
 	github.com/docker/cli v24.0.7+incompatible
