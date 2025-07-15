@@ -23,6 +23,10 @@ CassetteOS-AppManagement
 # node_modules
 node_modules
 package-lock.json
+pnpm-lock.yaml
 
 .idea
 build/sysroot/usr/bin/appfile2compose
+
+generate/
+openapitools.json
