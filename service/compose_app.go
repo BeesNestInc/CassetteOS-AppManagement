@@ -362,7 +362,7 @@ func (a *ComposeApp) injectEnvVariableToComposeApp() {
 		for k, v := range config.Global {
 			// if there is same name var declared in environment in compose yaml
 			// we should not reassign a value to it.
-			if service.Environment[k] == nil {
+			if service.Environment[k] == nil || *service.Environment[k] == "" {
 				service.Environment[k] = utils.Ptr(v)
 			}
 		}
