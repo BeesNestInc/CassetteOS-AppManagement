@@ -5,7 +5,10 @@ import (
 	"os"
 	"path/filepath"
 	"sync"
-
+	"fmt"
+	"math/rand"
+	"time"
+	"strings"
 	"github.com/BeesNestInc/CassetteOS-AppManagement/common"
 	"github.com/BeesNestInc/CassetteOS-AppManagement/pkg/config"
 	"github.com/BeesNestInc/CassetteOS-Common/utils/file"
@@ -41,7 +44,16 @@ func (s *ComposeService) IsInstalling(appName string) bool {
 	_, ok := s.installationInProgress.Load(appName)
 	return ok
 }
+func generateRandomString(length int) string {
+	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	seededRand := rand.New(rand.NewSource(time.Now().UnixNano()))
 
+	b := make([]byte, length)
+	for i := range b {
+		b[i] = charset[seededRand.Intn(len(charset))]
+	}
+	return string(b)
+}
 func (s *ComposeService) Install(ctx context.Context, composeApp *ComposeApp) error {
 	// set store_app_id (by convention is the same as app name at install time if it does not exist)
 	_, isStoreApp := composeApp.SetStoreAppID(composeApp.Name)
@@ -71,7 +83,45 @@ func (s *ComposeService) Install(ctx context.Context, composeApp *ComposeApp) er
 		}
 		return err
 	}
+	data, err := os.ReadFile(yamlFilePath)
+	if err != nil {
+		return err
+	}
+	var composeYAML map[string]interface{}
+	err = yaml.Unmarshal(data, &composeYAML)
+	if err != nil {
+		return err
+	}
+	services, ok := composeYAML["services"].(map[string]interface{})
+	if !ok {
+		return err
+	}
 
+	for _, serviceData := range services {
+		service, ok := serviceData.(map[string]interface{})
+		if !ok {
+			continue
+		}
+
+		envs, ok := service["environment"].(map[string]interface{})
+		if !ok {
+			continue
+		}
+
+		for envKey, envValue := range envs {
+			valueStr, ok := envValue.(string)
+			if !ok {
+				continue
+			}
+			strVal := valueStr 
+			if strings.HasPrefix(strVal, "$GEN_") {
+				varName := strings.TrimPrefix(strVal, "$") 
+				randomValue := generateRandomString(10)
+				generatedValue := fmt.Sprintf("%s_%s", varName, randomValue)
+				MyService.AppStoreManagement().ChangeGlobal(varName, generatedValue)
+			}
+		}
+	}
 	// load project
 	composeApp, err = LoadComposeAppFromConfigFile(composeApp.Name, yamlFilePath)
 
