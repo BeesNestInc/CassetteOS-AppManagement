@@ -115,10 +115,11 @@ func (s *ComposeService) Install(ctx context.Context, composeApp *ComposeApp) er
 			}
 			strVal := valueStr 
 			if strings.HasPrefix(strVal, "$GEN_") {
-				varName := strings.TrimPrefix(strVal, "$") 
-				randomValue := generateRandomString(10)
-				generatedValue := fmt.Sprintf("%s_%s", varName, randomValue)
-				MyService.AppStoreManagement().ChangeGlobal(varName, generatedValue)
+				if config.Global[envKey] == "" {
+					randomValue := generateRandomString(10)
+					generatedValue := fmt.Sprintf("%s_%s", envKey, randomValue)
+					MyService.AppStoreManagement().ChangeGlobal(envKey, generatedValue)
+				}
 			}
 		}
 	}
