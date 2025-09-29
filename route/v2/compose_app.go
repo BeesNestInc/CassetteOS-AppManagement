@@ -2,10 +2,15 @@ package v2
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"io"
 	"net/http"
+	"os"
+	"os/exec"
+	"strings"
 
 	"github.com/BeesNestInc/CassetteOS-AppManagement/codegen"
 	"github.com/BeesNestInc/CassetteOS-AppManagement/common"
@@ -286,6 +291,64 @@ func (a *AppManagement) InstallComposeApp(ctx echo.Context, params codegen.Insta
 	if err != nil {
 		message := err.Error()
 		return ctx.JSON(http.StatusBadRequest, codegen.ResponseBadRequest{
+			Message: &message,
+		})
+	}
+
+	// Create a new user for the app
+	// Generate Username
+	randomBytesUsername := make([]byte, 4)
+	if _, err := rand.Read(randomBytesUsername); err != nil {
+		message := fmt.Sprintf("failed to generate random string for username: %s", err.Error())
+		logger.Error("failed to generate random bytes for username", zap.Error(err))
+		return ctx.JSON(http.StatusInternalServerError, codegen.ResponseInternalServerError{
+			Message: &message,
+		})
+	}
+	usernameSuffix := hex.EncodeToString(randomBytesUsername)
+	username := fmt.Sprintf("%s_%s", composeApp.Name, usernameSuffix)
+
+	// Generate Password
+	randomBytesPassword := make([]byte, 16)
+	if _, err := rand.Read(randomBytesPassword); err != nil {
+		message := fmt.Sprintf("failed to generate random password: %s", err.Error())
+		logger.Error("failed to generate random bytes for password", zap.Error(err))
+		return ctx.JSON(http.StatusInternalServerError, codegen.ResponseInternalServerError{
+			Message: &message,
+		})
+	}
+	password := hex.EncodeToString(randomBytesPassword)
+
+	// Step 1: As db_admin_user, call a stored procedure to create a new user with CREATEDB privilege.
+	// IMPORTANT: The user must ensure the 'create_docker_app_user' procedure exists and runs:
+	// 'CREATE ROLE ' || username || ' WITH LOGIN PASSWORD ''' || password || ''' CREATEDB;'
+	cmd := exec.Command("psql", "-h", "localhost", "-U", "db_admin_user", "-d", "postgres", "-c", fmt.Sprintf("SELECT create_docker_app_user('%s', '%s');", username, password))
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		message := fmt.Sprintf("failed to create docker app user role: %s - %s", err.Error(), string(output))
+		logger.Error("failed to create docker app user role", zap.Error(err), zap.String("output", string(output)))
+		return ctx.JSON(http.StatusInternalServerError, codegen.ResponseInternalServerError{
+			Message: &message,
+		})
+	}
+
+	// Step 2: As the newly created user, create the database.
+	cmd = exec.Command("psql", "-h", "localhost", "-U", username, "-d", "postgres", "-c", fmt.Sprintf("CREATE DATABASE %s;", username))
+	cmd.Env = append(os.Environ(), "PGPASSWORD="+password) // Set password for non-interactive login
+	output, err = cmd.CombinedOutput()
+	if err != nil {
+		message := fmt.Sprintf("failed to create docker app database: %s - %s", err.Error(), string(output))
+		logger.Error("failed to create docker app database", zap.Error(err), zap.String("output", string(output)))
+		return ctx.JSON(http.StatusInternalServerError, codegen.ResponseInternalServerError{
+			Message: &message,
+		})
+	}
+
+	// Inject database credentials into the compose app
+	if err := injectDatabaseCredentials(composeApp, username, password, username); err != nil {
+		message := fmt.Sprintf("failed to inject database credentials: %s", err.Error())
+		logger.Error("failed to inject database credentials", zap.Error(err))
+		return ctx.JSON(http.StatusInternalServerError, codegen.ResponseInternalServerError{
 			Message: &message,
 		})
 	}
@@ -714,4 +777,67 @@ func composeAppsWithStoreInfo(ctx context.Context, opts composeAppsWithStoreInfo
 
 		return composeAppWithStoreInfo
 	}), nil
+}
+
+const (
+	DBUserVar     = "user_var"
+	DBPasswordVar = "password_var"
+	DBNameVar     = "db_name_var"
+)
+
+func injectDatabaseCredentials(composeApp *service.ComposeApp, user, password, dbName string) error {
+	userVar, passwordVar, nameVar := getDBEnvVarNames(composeApp)
+
+	if userVar == "" || passwordVar == "" || nameVar == "" {
+		return errors.New("could not determine database credential environment variables")
+	}
+
+	for i := range composeApp.Services {
+		if composeApp.Services[i].Environment == nil {
+			composeApp.Services[i].Environment = make(types.MappingWithEquals)
+		}
+		composeApp.Services[i].Environment[userVar] = &user
+		composeApp.Services[i].Environment[passwordVar] = &password
+		composeApp.Services[i].Environment[nameVar] = &dbName
+	}
+
+	return nil
+}
+
+func getDBEnvVarNames(composeApp *service.ComposeApp) (string, string, string) {
+	// Primary method: Check for x-cassetteos -> db-credentials extension
+	if xCassetteOS, ok := composeApp.Extensions["x-cassetteos"].(map[string]interface{}); ok {
+		if creds, ok := xCassetteOS["db-credentials"].(map[string]interface{}); ok {
+			userVar, _ := creds[DBUserVar].(string)
+			passwordVar, _ := creds[DBPasswordVar].(string)
+			dbNameVar, _ := creds[DBNameVar].(string)
+			if userVar != "" && passwordVar != "" && dbNameVar != "" {
+				return userVar, passwordVar, dbNameVar
+			}
+		}
+	}
+
+	// Fallback method: Heuristic scan of environment variables
+	return findDBEnvVarNamesHeuristically(composeApp)
+}
+
+func findDBEnvVarNamesHeuristically(composeApp *service.ComposeApp) (string, string, string) {
+	var userVar, passwordVar, nameVar string
+
+	for _, service := range composeApp.Services {
+		for key := range service.Environment {
+			keyUpper := strings.ToUpper(key)
+			if (strings.Contains(keyUpper, "DB_USER") || strings.Contains(keyUpper, "POSTGRES_USER")) && userVar == "" {
+				userVar = key
+			}
+			if (strings.Contains(keyUpper, "DB_PASSWORD") || strings.Contains(keyUpper, "POSTGRES_PASSWORD")) && passwordVar == "" {
+				passwordVar = key
+			}
+			if (strings.Contains(keyUpper, "DB_NAME") || strings.Contains(keyUpper, "POSTGRES_DB")) && nameVar == "" {
+				nameVar = key
+			}
+		}
+	}
+
+	return userVar, passwordVar, nameVar
 }
