@@ -353,6 +353,41 @@ func (a *AppManagement) InstallComposeApp(ctx echo.Context, params codegen.Insta
 		})
 	}
 
+	// Manually perform environment variable substitution after credential injection.
+	// This allows variables like DATABASE_URL to be constructed from credentials
+	// like PGUSER, PGPASSWORD, etc.
+	for i := range composeApp.Services {
+		service := &composeApp.Services[i]
+
+		// Create a simple mapping of the environment for substitution.
+		// The preceding injectDatabaseCredentials function ensures the Environment map is not nil.
+		envMap := make(map[string]string)
+		for k, v := range service.Environment {
+			if v != nil {
+				envMap[k] = *v
+			} else {
+				envMap[k] = "" // Ensure keys exist even if value is nil
+			}
+		}
+
+		// Re-iterate and substitute variables using the map we just created.
+		for k, v := range service.Environment {
+			if v == nil {
+				continue
+			}
+
+			// os.Expand uses the ${var} or $var format for substitution.
+			newValue := os.Expand(*v, func(key string) string {
+				// Lookup the variable in the service's own environment map.
+				return envMap[key]
+			})
+
+			if newValue != *v {
+				service.Environment[k] = &newValue
+			}
+		}
+	}
+
 	uncontrolled, err := a.IsNewComposeUncontrolled(composeApp)
 	if err != nil {
 		message := err.Error()
