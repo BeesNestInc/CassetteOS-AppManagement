@@ -10,6 +10,7 @@ type APPModel struct {
 	LogFileExt   string
 	AppStorePath string
 	AppsPath     string
+	DBAdminPassword string
 }
 
 type ServerModel struct {
