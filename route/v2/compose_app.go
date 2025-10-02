@@ -17,6 +17,7 @@ import (
 	"github.com/BeesNestInc/CassetteOS-AppManagement/service"
 	"github.com/BeesNestInc/CassetteOS-Common/utils"
 	"github.com/BeesNestInc/CassetteOS-Common/utils/logger"
+	"github.com/BeesNestInc/CassetteOS-AppManagement/pkg/config" 
 	"github.com/compose-spec/compose-go/types"
 	"github.com/labstack/echo/v4"
 	"github.com/samber/lo"
@@ -323,6 +324,7 @@ func (a *AppManagement) InstallComposeApp(ctx echo.Context, params codegen.Insta
 	// IMPORTANT: The user must ensure the 'create_docker_app_user' procedure exists and runs:
 	// 'CREATE ROLE ' || username || ' WITH LOGIN PASSWORD ''' || password || ''' CREATEDB;'
 	cmd := exec.Command("psql", "-h", "localhost", "-U", "db_admin_user", "-d", "postgres", "-c", fmt.Sprintf("SELECT create_docker_app_user('%s', '%s');", username, password))
+	cmd.Env = append(os.Environ(), "PGPASSWORD="+ config.AppInfo.DBAdminPassword) 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		message := fmt.Sprintf("failed to create docker app user role: %s - %s", err.Error(), string(output))
@@ -331,6 +333,7 @@ func (a *AppManagement) InstallComposeApp(ctx echo.Context, params codegen.Insta
 			Message: &message,
 		})
 	}
+	
 
 	// Step 2: As the newly created user, create the database.
 	cmd = exec.Command("psql", "-h", "localhost", "-U", username, "-d", "postgres", "-c", fmt.Sprintf("CREATE DATABASE %s;", username))
