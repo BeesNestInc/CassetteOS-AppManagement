@@ -299,6 +299,11 @@ func (a *ComposeApp) MainTag() (string, error) {
 	if err != nil {
 		return "", err
 	}
+
+	if mainService == nil {
+		return "", ErrMainServiceNotSpecified
+	}
+
 	_, newTag := docker.ExtractImageAndTag(mainService.Image)
 
 	return newTag, nil

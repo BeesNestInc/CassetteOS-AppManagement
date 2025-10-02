@@ -3,6 +3,8 @@ package service
 import (
 	"context"
 	"fmt"
+	"reflect"
+	"sort"
 	"strings"
 	"sync"
 	"time"
@@ -15,6 +17,7 @@ import (
 	"github.com/BeesNestInc/CassetteOS-Common/utils/file"
 	"github.com/BeesNestInc/CassetteOS-Common/utils/logger"
 	"github.com/bluele/gcache"
+	"github.com/compose-spec/compose-go/types"
 	"github.com/docker/docker/client"
 	"github.com/samber/lo"
 	"go.uber.org/zap"
@@ -544,47 +547,83 @@ var NoUpdateBlacklist = []string{
 }
 
 func (a *AppStoreManagement) IsUpdateAvailableWith(composeApp *ComposeApp, storeComposeApp *ComposeApp) (bool, error) {
-	currentTag, err := composeApp.MainTag()
-	if err != nil {
-		logger.Error("failed to get current tag", zap.Error(err))
-		return false, err
+	// check if service lists are different
+	localServiceNames := lo.Map(composeApp.Services, func(s types.ServiceConfig, _ int) string { return s.Name })
+	storeServiceNames := lo.Map(storeComposeApp.Services, func(s types.ServiceConfig, _ int) string { return s.Name })
+
+	diff1, _ := lo.Difference(localServiceNames, storeServiceNames)
+	diff2, _ := lo.Difference(storeServiceNames, localServiceNames)
+	if len(diff1) > 0 || len(diff2) > 0 {
+		logger.Info("service lists are different, update is available", zap.Strings("local", localServiceNames), zap.Strings("store", storeServiceNames))
+		return true, nil
 	}
-	mainService, err := composeApp.MainService()
-	if err != nil {
-		logger.Error("failed to get main service", zap.Error(err))
-		return false, err
+
+	for _, storeService := range storeComposeApp.Services {
+		localService := composeApp.App(storeService.Name)
+		if localService == nil {
+			// This should not happen due to the check above, but as a safeguard
+			logger.Error("local service not found for store service, which should not happen", zap.String("service", storeService.Name))
+			return true, nil
+		}
+
+		// 1. Compare image
+		if localService.Image != storeService.Image {
+			_, localTag := docker.ExtractImageAndTag(localService.Image)
+			// if tag is one of need-check-digest tags, we need to compare digest
+			if lo.Contains(common.NeedCheckDigestTags, localTag) {
+				if lo.Contains(NoUpdateBlacklist, localService.Image) {
+					continue
+				}
+
+				ctx := context.Background()
+				cli, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
+				if err != nil {
+					logger.Error("failed to create docker client", zap.Error(err))
+					return false, err
+				}
+				defer cli.Close()
+
+				imageInfo, _, err := cli.ImageInspectWithRaw(ctx, localService.Image)
+				if err != nil {
+					if client.IsErrNotFound(err) {
+						logger.Info("local image not found, assuming update is available", zap.String("image", localService.Image))
+						return true, nil
+					}
+					logger.Error("failed to inspect image", zap.Error(err))
+					return false, err
+				}
+
+				match, err := docker.CompareDigest(localService.Image, imageInfo.RepoDigests)
+				if err != nil {
+					logger.Error("failed to compare digest", zap.Error(err))
+					return false, err
+				}
+
+				if !match {
+					logger.Info("image digest mismatch, update is available", zap.String("image", localService.Image))
+					return true, nil
+				}
+			} else {
+				// if tag is not in need-check-digest list, image name difference means update is available
+				logger.Info("image name is different, update is available", zap.String("local_image", localService.Image), zap.String("store_image", storeService.Image))
+				return true, nil
+			}
+		}
+
+		// 2. Compare environment variable keys
+		localEnvKeys := lo.Keys(localService.Environment)
+		storeEnvKeys := lo.Keys(storeService.Environment)
+
+		sort.Strings(localEnvKeys)
+		sort.Strings(storeEnvKeys)
+
+		if !reflect.DeepEqual(localEnvKeys, storeEnvKeys) {
+			logger.Info("environment variable keys are different, update is available", zap.String("service", localService.Name))
+			return true, nil
+		}
 	}
-	if lo.Contains(common.NeedCheckDigestTags, currentTag) {
-		ctx := context.Background()
-		cli, clientErr := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
-		if clientErr != nil {
-			logger.Error("failed to create docker client", zap.Error(clientErr))
-			return false, clientErr
-		}
-		defer cli.Close()
 
-		if lo.Contains(NoUpdateBlacklist, mainService.Image) {
-			return false, nil
-		}
-
-		image, _ := docker.ExtractImageAndTag(mainService.Image)
-
-		imageInfo, _, clientErr := cli.ImageInspectWithRaw(ctx, image)
-		if clientErr != nil {
-			logger.Error("failed to inspect image", zap.Error(clientErr))
-			return false, clientErr
-		}
-
-		match, clientErr := docker.CompareDigest(mainService.Image, imageInfo.RepoDigests)
-		if clientErr != nil {
-			logger.Error("failed to compare digest", zap.Error(clientErr))
-			return false, clientErr
-		}
-		// match means no update available
-		return !match, nil
-	}
-	storeTag, err := storeComposeApp.MainTag()
-	return currentTag != storeTag, err
+	return false, nil
 }
 
 func (a *AppStoreManagement) IsUpdating(appID string) bool {

@@ -1421,6 +1421,34 @@ components:
           example: false
           x-oapi-codegen-extra-tags:
             yaml: ",omitempty"
+        database_env_mappings:
+          type: object
+          additionalProperties:
+            type: string
+          description: |
+            Mapping of database-related environment variables.
+            The key is the environment variable name required by the app,
+            and the value is the type of information to be injected.
+            Supported values are "user", "password", and "database".
+          example:
+            POSTGRES_USER: "user"
+            POSTGRES_PASSWORD: "password"
+            POSTGRES_DB: "database"
+          x-oapi-codegen-extra-tags:
+            yaml: "database_env_mappings,omitempty"
+        database_env_templates:
+          type: object
+          additionalProperties:
+            type: string
+          description: |
+            Templates for creating database connection strings.
+            The key is the environment variable name for the connection string.
+            The value is a template string with placeholders like {{CASSETTEOS_DB_USER}},
+            {{CASSETTEOS_DB_PASSWORD}}, and {{CASSETTEOS_DB_NAME}}.
+          example:
+            DATABASE_URL: "postgres://{{CASSETTEOS_DB_USER}}:{{CASSETTEOS_DB_PASSWORD}}@postgres:5432/{{CASSETTEOS_DB_NAME}}?sslmode=disable"
+          x-oapi-codegen-extra-tags:
+            yaml: "database_env_templates,omitempty"
           
     ComposeApp:
       type: object
