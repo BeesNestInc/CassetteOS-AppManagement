@@ -193,8 +193,8 @@ github.com/AlecAivazis/survey/v2 v2.3.7 h1:6I/u8FvytdGsgonrYsVn2t8t4QiRnh6QSTqkk
 github.com/AlecAivazis/survey/v2 v2.3.7/go.mod h1:xUTIdE4KCOIjsBAE1JYsUPoCqYdZ1reCfTwbto0Fduo=
 github.com/Azure/go-ansiterm v0.0.0-20210617225240-d185dfc1b5a1 h1:UQHMgLO+TxOElx5B5HZ4hJQsoJ/PvUvKRhJHDQXO8P8=
 github.com/Azure/go-ansiterm v0.0.0-20210617225240-d185dfc1b5a1/go.mod h1:xomTg63KZ2rFqZQzSB4Vz2SUXa1BpHTVz9L5PTmPC4E=
-github.com/BeesNestInc/CassetteOS-Common v0.0.9 h1:SeIisVgjoV9I7l1b1Yy9hexLZt25sZRen4dspM5kqPc=
-github.com/BeesNestInc/CassetteOS-Common v0.0.9/go.mod h1:widQKlAywDFAdxMiSJr5t1bXU7GE9PI2cVPP1JPGCxo=
+github.com/BeesNestInc/CassetteOS-Common v0.0.10 h1:UoZUZszHqlTtkYHO5R00MyscqzRfVNMi9voIsVWrRWM=
+github.com/BeesNestInc/CassetteOS-Common v0.0.10/go.mod h1:widQKlAywDFAdxMiSJr5t1bXU7GE9PI2cVPP1JPGCxo=
 github.com/BurntSushi/toml v0.3.1 h1:WXkYYl6Yr3qBf1K79EBnL4mak0OimBfB0XUf9Vl28OQ=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
